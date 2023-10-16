@@ -3,6 +3,7 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import LogIn from './pages/LogIn';
 import Home from './pages/Home';
+import UserProfile from './pages/UserProfile';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -22,25 +23,34 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { initializeDatabase } from './services/database.service';
 
 setupIonicReact();
+initializeDatabase()
+const App: React.FC = () => {
+  // This is a placeholder. You'd get the real authentication state from your state management logic.
+  const isAuthenticated = false; // Or true based on your logic
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/LogIn">
-          <LogIn />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/LogIn" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/LogIn">
+            <LogIn/>
+          </Route>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <Route exact path="/UserProfile">
+             <UserProfile />
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/LogIn" />
+          </Route>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
