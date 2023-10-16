@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">testsprakse</string>
+    <string name="title_activity_main">testsprakse</string>
+    <string name="package_name">ionic.testsprakse</string>
+    <string name="custom_url_scheme">ionic.testsprakse</string>
+</resources>

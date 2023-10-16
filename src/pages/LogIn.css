@@ -1,0 +1,81 @@
+ion-content::part(background) {
+    background-image: linear-gradient(to bottom right, #585c6c, #282c3c);
+    color: white;
+  }
+
+  ion-toolbar {
+    --background: #282c3c;
+}
+
+ion-toolbar ion-title {
+    color: white;
+    font-size: 24px; 
+}
+
+.loginForm{
+    background-color: #282c3c;
+    border-radius: 20px;
+    color: white;
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding: 20px;
+}
+
+.centerText{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.foButt{
+    font-size: 14px;
+    color: gray;
+    position: absolute;
+    left: 0px;
+}
+
+.crButt{
+    font-size: 14px;
+    color: gray;
+    float: right;
+}
+
+
+.foButt, .crButt {
+    margin: 10px 0;
+}
+
+/* Forgot Pass Modal */
+ion-modal#passMod {
+    --height: 30%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal#passMod::part(backdrop) {
+opacity: 0;
+}
+
+ion-modal#passMod ion-toolbar {
+/* --color: white; */
+padding-right: 10px;
+}
+
+/* Sign Up mod*/
+ion-modal#signMod {
+    --height: 45%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal#signMod::part(backdrop) {
+opacity: 0;
+}
+
+ion-modal#signMod ion-toolbar {
+/* --color: white; */
+padding-right: 10px;
+}
+
