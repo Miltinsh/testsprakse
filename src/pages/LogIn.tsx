@@ -26,7 +26,7 @@ const logUsing3rd = function (platform: string) {
   }
 }
 
-
+  
 const Home: React.FC = () => {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
