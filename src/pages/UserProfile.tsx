@@ -16,7 +16,7 @@ const UserProfile: React.FC = () => {
 
   const location = useLocation<{ user: User }>();
   const user = location.state.user;
-
+ 
   
 
   return (

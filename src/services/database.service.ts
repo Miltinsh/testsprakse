@@ -1,3 +1,4 @@
+//  FILE: database.service.ts PT1
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import jsonData from "../data/import-json.js";
 import bcrypt from 'bcryptjs'
@@ -33,9 +34,9 @@ export const initializeDatabase = async () => {
       await mSQLite.retrieveConnection("TestApp", false).then((db: SQLiteDBConnection) => {
         database = db;
         console.log(db);
-        database.queryOriginal = database.query;
-        database.query = function (query: string, placeholders: any[]) {
-        }
+        //database.queryOriginal = database.query;
+        //database.query = function (_uery: string, placeholders: any[]) {
+        //}
         createTables();
         checkDBVersion();
       })
@@ -78,7 +79,7 @@ export const checkDBVersion = async () => {
     ;
 }
 
-
+//  FILE: database.service.ts PT2
 export const loadJSON = async () => {
   await importJSON();
 
@@ -113,28 +114,57 @@ export const importJSON = async () => {
     }
   );
 };
+
+
 const createTables = async () => {
-  let result = await database.isDBOpen()
+  let result = await database.isDBOpen();
 
-  if (result.result === false) {
-    await database.open();
-  }
+  // if (result.result === false) {
+  //   await database.open();
+  // }
+  // const createUserDataTableSQL = `
+  //       CREATE TABLE IF NOT EXISTS UserData (
+  //         ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  //         Name TEXT NOT NULL,
+  //         Surname TEXT NOT NULL,
+  //         DoB TEXT,
+  //         SSN INTEGER
+  //       );
+  //   `;
+  // const createAccountsTableSQL = `
+  //   CREATE TABLE IF NOT EXISTS Accounts (
+  //     ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  //     Email TEXT NOT NULL UNIQUE,
+  //     Pass TEXT NOT NULL,
+  //     DataID INTEGER REFERENCES UserData(ID) NOT NULL
+  //   );
+  // `;
+
+  
+  // try {
+  //   if (result.result === false) {
+  //     await database.open();
+  //   }
+  //     await database.run(createUserDataTableSQL);
+  //     console.log("UserData table created successfully");
+  // } catch (error) {
+  //     console.error("Error creating UserData table:", error);
+  // }
+
+  // try {
+  //   if (result.result === false) {
+  //     await database.open();
+  //   }
+
+  //     await database.run(createAccountsTableSQL);
+  //     console.log("Accounts table created successfully");
+  // } catch (error) {
+  //     console.error("Error creating Accounts table:", error);
+  // }
+};
 
 
-  const createTableSQL = `
-      CREATE TABLE IF NOT EXISTS Accounts (
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Name TEXT NOT NULL,
-        Surname TEXT NOT NULL,
-        Email TEXT NOT NULL UNIQUE,
-        Pass TEXT NOT NULL
-      );
-    `;
-  await database.run(createTableSQL);
-}
-
-
-
+//  FILE: database.service.ts PT3
 export const logInAuth = async (email: string, password: string) => {
   try {
     console.log("Email: ", email, "|Password: ", password);
@@ -190,6 +220,7 @@ export const emailExists = async (email: string) => {
 
 };
 
+//  FILE: database.service.ts PT4
 console.log('connecting to DB');
 export const resetPassword = async (email: string, password: string) => {
   let result = await database.isDBOpen()
@@ -223,9 +254,6 @@ export const resetPassword = async (email: string, password: string) => {
 
 }
 
-
-
-// INSER USER
 console.log('connecting to DB');
 export const insertUser = async (name: string, surname: string, email: string, password: string) => {
   let result = await database.isDBOpen()
@@ -238,17 +266,26 @@ export const insertUser = async (name: string, surname: string, email: string, p
     return await database.run(
       `
         INSERT INTO
-        Accounts (
+        UserData (
             Name,
-            Surname,
-            Email,
-            Pass
+            Surname
           )
-        VALUES(?,?,?,?)
-        `,
+        VALUES(?,?)
+      `,
       [
         name.toString(),
         surname.toString(),
+      ],
+      `
+        INSERT INTO
+        Accounts (
+            Email,
+            Pass
+          )
+        VALUES(?,?)
+
+        `,
+      [
         email.toString(),
         password.toString(),
       ]
@@ -264,3 +301,6 @@ export const insertUser = async (name: string, surname: string, email: string, p
   }
 
 }
+// END OF FILE
+
+

@@ -1,13 +1,10 @@
+// FILE LogIn.tsx PT1
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonInput, IonCheckbox, IonList, IonButton, IonModal } from '@ionic/react';
 import './LogIn.css';
 import { insertUser, logInAuth, resetPassword } from '../services/database.service';
 import { useHistory } from 'react-router-dom';
 import bcrypt from 'bcryptjs'
-
-// useEffect(() => {
-//   databaseService.initializeDatabase();
-// }, []);
 
 const logUsing3rd = function (platform: string) {
   switch (platform) {
@@ -26,24 +23,18 @@ const logUsing3rd = function (platform: string) {
   }
 }
 
-  
 const Home: React.FC = () => {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-
   const history = useHistory();
-
   const [showPassModal, setShowPassModal] = useState(false);
   const [showSignModal, setShowSignModal] = useState(false);
-
   const [isAgreed, setIsAgreed] = useState(false);
-
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-
   const [newPassword, setNewPassword] = useState('');
   const [repeatNewPassword, setRepeatNewPassword] = useState('');
   const [resetEmail, setResetEmail] = useState('');
@@ -90,6 +81,7 @@ const Home: React.FC = () => {
         // Store the hashed password in the database
         await insertUser(name, surname, email, hashedPassword); // Pass the hashed password here
         setShowSignModal(false);
+        console.log(name, surname, email, hashedPassword)
       } catch (error: any) {
         if (error.message && error.message.includes('Email is already in use!')) {
           alert('Email is already in use!');
@@ -105,7 +97,7 @@ const Home: React.FC = () => {
     }
   };
 
-
+// FILE LogIn.tsx PT2
   const handleRenewPass = async () => {
     console.log("Password:", newPassword, "Repeat Password:", repeatNewPassword);
     if (newPassword.trim() === repeatNewPassword.trim()) {
@@ -191,7 +183,7 @@ const Home: React.FC = () => {
           </IonHeader>
           <IonContent className="ion-padding">
             {/* Content for sign up */}
-            <IonInput
+{/* // FILE LogIn.tsx PT3 */}<IonInput  
               className="ion-text-left"
               style={{ color: "white" }}
               type="text"
@@ -276,7 +268,7 @@ const Home: React.FC = () => {
                 <p className="centerText" >OR</p>
                 <IonButton onClick={() => logUsing3rd("google")} color="danger" expand="full">Log In using Google</IonButton>
                 <IonButton onClick={() => logUsing3rd("twitter")} color="secondary" expand="full">Log In using Twitter</IonButton>
-                <IonButton onClick={() => logUsing3rd("facebook")} color="primary" expand="full">Log In using Facebook</IonButton>
+                <IonButton onClick={() => logUsing3rd("facebook")} color="primary" expand="full">Log In using Facebook</IonButton> {/* // FILE LogIn.tsx PT4 */}
                 <IonButton onClick={() => logUsing3rd("apple")} color="dark" expand="full">Log In using Apple</IonButton>
               </IonList>
 
@@ -292,3 +284,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+// END OF FILE
