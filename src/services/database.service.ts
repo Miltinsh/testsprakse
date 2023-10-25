@@ -254,6 +254,44 @@ export const resetPassword = async (email: string, password: string) => {
 
 }
 
+
+
+export const getUserData = async (email: string) => {
+  let result = await database.isDBOpen();
+
+  if (result.result === false) {
+    await database.open();
+  }
+
+  let queryResult;
+
+  try {
+    queryResult = await database.run(
+      `
+      SELECT UserData.*
+      FROM Accounts
+      INNER JOIN UserData ON Accounts.DataID = UserData.ID
+      WHERE Accounts.Email = ?;
+      `,
+      [email.toString()]
+    );
+
+  } catch (error: any) {
+    throw error;
+  }
+
+  if (!queryResult || !queryResult.values) {
+    console.error("Query result is not as expected:", queryResult);
+  }
+  
+  console.log(queryResult.values);
+  console.log(queryResult);
+  return queryResult.values;
+};
+
+
+
+
 console.log('connecting to DB');
 export const insertUser = async (name: string, surname: string, email: string, password: string) => {
   let result = await database.isDBOpen()
@@ -263,33 +301,27 @@ export const insertUser = async (name: string, surname: string, email: string, p
   }
 
   try {
-    return await database.run(
+    await database.run(
       `
         INSERT INTO
-        UserData (
-            Name,
-            Surname
-          )
+        UserData (Name, Surname)
         VALUES(?,?)
       `,
-      [
-        name.toString(),
-        surname.toString(),
-      ],
-      `
-        INSERT INTO
-        Accounts (
-            Email,
-            Pass
-          )
-        VALUES(?,?)
-
-        `,
-      [
-        email.toString(),
-        password.toString(),
-      ]
+      [name, surname]
+    ).then(
+      async (result:any) => {
+        console.log(result);
+        await database.run(
+          `
+            INSERT INTO
+            Accounts (Email, Pass, DataID)
+            VALUES(?,?,?)
+          `,
+          [email, password, result.changes.lastId]
+        );
+      }
     );
+
   } catch (error: any) {
     if (error.message && error.message.includes('UNIQUE constraint failed: Accounts.Email')) {
       // The email is already in use.
@@ -299,8 +331,7 @@ export const insertUser = async (name: string, surname: string, email: string, p
       throw error;
     }
   }
-
-}
+};
 // END OF FILE
 
 

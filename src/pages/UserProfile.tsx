@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, useIonViewWillEnter } from '@ionic/react';
+import { getUserData } from '../services/database.service';
 
 
 const UserProfile: React.FC = () => {
@@ -17,10 +18,12 @@ const UserProfile: React.FC = () => {
   const location = useLocation<{ user: User }>();
   const user = location.state.user;
  
-  
+  useIonViewWillEnter(() => {
+    getUserData(user.Email);
+  });
 
   return (
-    <IonPage>UserProfile
+    <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>User Profile</IonTitle>

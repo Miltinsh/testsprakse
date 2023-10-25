@@ -1,6 +1,6 @@
 const jsonData = {
     database: "TestApp",
-    version: 19,
+    version: 20,
     encrypted: false,
     mode: "full",
     tables: [
@@ -20,7 +20,7 @@ const jsonData = {
           {column: "ID", value: "INTEGER PRIMARY KEY NOT NULL"},
           {column: "Email", value: "TEXT NOT NULL UNIQUE"},
           {column: "Pass", value: "TEXT NOT NULL"},
-          {column: "DataID", value: "INTEGER NOT NULL REFERENCES UserData(ID) ON DELETE CASCADE"}, 
+          {column: "DataID", value: "INTEGER REFERENCES UserData(ID) ON DELETE CASCADE"}, 
           //{constraint: "fk_dataid FOREIGN KEY(DataID) REFERENCES UserData(ID)"}
         ]
       }
